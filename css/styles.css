@@ -27,6 +27,7 @@ body{
     background: white;
     width: 100%;
     top: 0;
+    z-index: 1000;
 }
 
 .nav-holder {
@@ -217,6 +218,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
@@ -245,6 +247,14 @@ body{
     color: #ef443b;
     text-align: center;
     font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    width: fit-content;
+    text-decoration: underline;
+}
+
+.show-more:focus {
+    outline: none;
 }
 
 .card-img {
@@ -306,6 +316,10 @@ body{
     font-family: 'Roboto';
 }
 
+.hide-card {
+    display: none;
+}
+
 
 /************************************** Stories */
 #stories {
@@ -357,22 +371,20 @@ body{
 
 .support-content {
     margin: 20px 0px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-areas: "fr ct";
 }
 
 .support-form {
-    width: 40%;
+    grid-area: fr;
     padding-right: 10px;
-}
-
-.support-card{
-    width: 60%;
 }
 
 input[type=text], textarea {
     width: 100%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin-top: 5px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -404,6 +416,7 @@ input[type=text], textarea {
 }
 
 #support-cards {
+    grid-area: ct;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -415,7 +428,13 @@ input[type=text], textarea {
     padding: 10px;
     border: 1px solid #ef443b;
     text-align: center;
-    margin-bottom: 15px;
+    position: relative;
+    display: table;
+    margin: auto;
+}
+
+.support-card:hover {
+    box-shadow: 0 0 rgba(0,0,0,0), 0 0 0 0.125rem #FFF, 0 0 0 0.25rem #ef443b;
 }
 
 .support-title {
@@ -427,6 +446,29 @@ input[type=text], textarea {
 
 .support-message {
     line-height: 1.4rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: -13px;
+    right: -14px;
+    font-size: 1.5rem;
+    width: 30px;
+    height: 30px;
+    color: #ef443b;
+    background: #fff;
+    border: 0.1rem solid #ef443b;
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    justify-content: center;
+    border-radius: 50rem;
+    cursor: pointer;
+}
+
+.close-btn:hover { 
+    background: #ef443b;
+    color: #fff;
 }
 
 #footer {
@@ -443,10 +485,34 @@ input[type=text], textarea {
     width: 100%;
     font-size: 1.2rem;
     font-family: 'Roboto';
-}
+} 
 
- /*     box-shadow: 0 0 rgba(0,0,0,0), 0 0 0 0.125rem #FFF, 0 0 0 0.25rem #80acff;
- */ 
+ .nav-down {
+    box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
+ }
+
+ .section-reached {
+    border-top: 3px solid #ef443b;
+ }
+
+ #support {
+     flex-direction: column;
+     width: 100%;
+ }
+
+ .hide-span {
+     visibility: hidden;
+ }
+
+ .support-text {
+     margin-bottom: 0px;
+ }
+
+ .error-msg {
+    font-size: .8rem;
+    color: #ef443b;
+ }
+
   
 
 
@@ -525,7 +591,8 @@ input[type=text], textarea {
     }
 
     .support-content {
-        flex-direction: column;
+        grid-template-areas: "ct" "fr";
+        grid-template-columns: 1fr;
     }
 
     .support-form {
@@ -537,6 +604,23 @@ input[type=text], textarea {
         flex-direction: column;
         align-items: center;
         order: 1;
+    }
+
+    .section {
+        flex-direction: column;
+    }
+
+    .section-reached {
+        border: none;
+    }
+
+    .hide-span {
+        visibility: unset;
+    }
+
+    .close-btn {
+        top: 50%;
+        right: -22px;
     }
 
 }
