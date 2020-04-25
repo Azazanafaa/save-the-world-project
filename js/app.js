@@ -1,3 +1,4 @@
+/***************** Variable Declarations */
 const dropdown = document.querySelector('#dropdown');
 const dropnav = document.querySelector('.nav-holder');
 
@@ -5,13 +6,6 @@ const presentationSection = document.querySelector('#presentation');
 const teamSection = document.querySelector('#team');
 const storiesSection = document.querySelector('#stories');
 const supportSection = document.querySelector('#support');
-
-const presentationNav = document.querySelector('#pre');
-const teamNav = document.querySelector('#tea');
-const storiesNav = document.querySelector('#sto');
-const supportNav = document.querySelector('#sup');
-
-const navItems = [presentationNav, teamNav, storiesNav, supportNav];
 
 const firstsection = document.getElementById('firstsection');
 const header = document.querySelector('.header-holder');
@@ -34,6 +28,47 @@ const showMoreBtn = document.querySelector('.show-more');
 let sectionReached;
 let navReached;
 
+/******************* Updating the items with the right params */
+function updateElementsProperties(navItem, navLink, id, name, section) {
+    navItem.classList.add('nav-item');
+    navLink.classList.add('nav-link');
+    navItem.setAttribute('id', id);
+    navLink.setAttribute('href', '#');
+    navItem.innerText = name;
+    /* navItem.appendChild(navLink); */
+    /**************** Hide dropdown menu when clicking item */
+    navItem.addEventListener('click', () => {
+        document.querySelector('.nav-holder').classList.remove('dropdown-menu');
+    });
+    navItem.addEventListener('click', () => {
+        section.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+    });
+}
+
+/************** Adding navigation menu to the navbar after dom loaded */
+const fragment = document.createDocumentFragment();
+const presentationNav = document.createElement('li');
+const navLinkPre = document.createElement('a');
+this.updateElementsProperties(presentationNav, navLinkPre, 'pre', 'Presentation', presentationSection);
+fragment.appendChild(presentationNav);
+
+const teamNav = document.createElement('li');
+const navLinkTea = document.createElement('a');
+this.updateElementsProperties(teamNav, navLinkTea, 'tea', 'Team', teamSection);
+fragment.appendChild(teamNav);
+
+const storiesNav = document.createElement('li');
+const navLinkSto = document.createElement('a');
+this.updateElementsProperties(storiesNav, navLinkSto, 'sto', 'Stories', storiesSection);
+fragment.appendChild(storiesNav);
+
+const supportNav = document.createElement('li');
+const navLinkSup = document.createElement('a');
+this.updateElementsProperties(supportNav, navLinkSup, 'sup', 'Show support', supportSection);
+fragment.appendChild(supportNav);
+document.querySelector('.nav-holder').appendChild(fragment);
+
+/*************  Hide team cards if there are more than 3 teams */
 function hideCards() {
     for (let index = 3; index < teamCards.length; index++) {
         teamCards[index].classList.add('hide-card');
@@ -44,6 +79,7 @@ if (teamCards.length > 3) {
     this.hideCards();
 }
 
+/*************** Adding event to button to show the member of team cards or hide them */
 showMoreBtn.addEventListener('click', () => {
     const hiddenCards = document.querySelectorAll('.hide-card');
     console.log(hiddenCards);
@@ -60,12 +96,13 @@ showMoreBtn.addEventListener('click', () => {
 
 });
 
-
+/******************* function to test if an element is in viewport*/
 function isElementInViewport(el) {
     let rect = el.getBoundingClientRect();
     return (rect.top < 100 && rect.bottom > 100);
 }
 
+/**************** function to add a decoration for the nav items when they are in the viewport */
 function addNavBorder(section, nav) {
     if (navReached) {
         navReached.classList.remove('section-reached');
@@ -75,6 +112,7 @@ function addNavBorder(section, nav) {
     nav.classList.add('section-reached');
 }
 
+/***************** Handling on scroll to test which element is on viewport */
 window.onscroll = () => {
     if (sectionReached != presentationSection && this.isElementInViewport(presentationSection)) {
         this.addNavBorder(presentationSection, presentationNav);
@@ -88,7 +126,6 @@ window.onscroll = () => {
         navReached.classList.remove('section-reached');
         sectionReached = null;
     }
-
     if (window.pageYOffset > 0) {
         header.classList.add('nav-down');
     } else {
@@ -96,25 +133,24 @@ window.onscroll = () => {
     }
 };
 
-
-
+/********** Adding on hover action to the support cards section so we can show the remove span */
 supportCards.forEach(card => {
     card.addEventListener('mouseover', function onHoverCard() {
         card.lastElementChild.classList.remove('hide-span');
     });
-
     card.addEventListener('mouseout', function onMouseOut() {
         card.lastElementChild.classList.add('hide-span');
     });
 });
 
-
+/*********** On click on delete supporter card to delete it */
 deleteSpans.forEach(span => {
     span.addEventListener('click', function deleteCard() {
         span.parentElement.remove();
     });
 });
 
+/*********** Handling submit form to add the new supporter card */
 submitBtn.addEventListener('click', function submitForm() {
     if (!card_title.value || card_title.value == "" || !card_message.value || card_message.value == "") {
         errorMsg.style.display = 'block';
@@ -145,13 +181,7 @@ submitBtn.addEventListener('click', function submitForm() {
     }
 });
 
-for(let item of navItems) {
-    item.addEventListener('click', () => {
-        dropnav.classList.remove('dropdown-menu');
-    });
-}
-
-
+/******************************** Show dropdown menu */
 dropdown.addEventListener('click', () => {
     dropnav.classList.toggle('dropdown-menu');
 });
